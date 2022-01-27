@@ -1,5 +1,13 @@
 #include "main.h"
 
+void AdaptiveIntegrationTest(){
+    std::cout << "Setting terminal precision to 12 digits!" << std::setprecision (12) << std::endl;
+    double test_area = NumericIntegration::AdaptiveTrapezoidMethod(0, 7, 1, 0.0001, WeirdPoly);
+    std::cout << "Adaptive Trap Method: " << test_area << std::endl;
+    return;
+}
+
+
 void IntegrationTest(){
     double test_area = NumericIntegration::TrapezoidMethod(0, 100, 1000, SimpleQuadratic);
     std::cout << "Trap Method: " << std::endl;
@@ -10,6 +18,7 @@ void IntegrationTest(){
     std::cout << test_area << std::endl;
     return;
 }
+
 
 void GaussianElimTest(){
     Eigen::MatrixXd MatTest(3, 3);
@@ -46,7 +55,8 @@ int main(int argc, char *argv[]){
 
     // IntegrationTest();
     // GaussianElimTest();
-    LUDecompTest();
+    // LUDecompTest();
+    AdaptiveIntegrationTest();
 
     return 0;
 }

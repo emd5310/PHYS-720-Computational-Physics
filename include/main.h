@@ -4,6 +4,7 @@
 // Standard libraries
 #include <cmath>
 #include <iostream>
+#include <iomanip>
 #include <string>
 
 // 3rd Party
@@ -24,6 +25,10 @@ std::string print(std::string message){
 
 double SimpleQuadratic(double x){
     return std::pow(x, 2);
+}
+
+double WeirdPoly(double x){
+    return 2.0 * std::pow(x, 3) + 5.0 * std::pow(x, 2) - 11.2 * x;
 }
 
 
