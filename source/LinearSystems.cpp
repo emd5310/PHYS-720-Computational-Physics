@@ -1,5 +1,18 @@
 #include "LinearSystems.h"
 
+Eigen::VectorXd LinearSystems::BackSubstitution(Eigen::MatrixXd A, Eigen::VectorXd v){
+    int N = v.size();
+    Eigen::VectorXd solutions(N);
+
+    for(int m = (N-1); m > -1; m--){
+        solutions(m) = v(m);
+        for(int n = (m+1); n < N; n++){
+            solutions(m) -= A(m, n) * solutions(n);
+        }
+    }
+    return solutions;
+}
+
 Eigen::VectorXd LinearSystems::GaussianElimination(Eigen::MatrixXd A, Eigen::VectorXd v){
 
     int N = v.size();
@@ -17,29 +30,15 @@ Eigen::VectorXd LinearSystems::GaussianElimination(Eigen::MatrixXd A, Eigen::Vec
             v(n) -= factor * v(m);
         }
     }
-
     // Now carry out backsub to get the solutions
     return LinearSystems::BackSubstitution(A, v);
-}
-
-Eigen::VectorXd LinearSystems::BackSubstitution(Eigen::MatrixXd A, Eigen::VectorXd v){
-    int N = v.size();
-    Eigen::VectorXd solutions(N);
-
-    for(int m = (N-1); m > -1; m--){
-        solutions(m) = v(m);
-        for(int n = (m+1); n < N; n++){
-            solutions(m) -= A(m, n) * solutions(n);
-        }
-    }
-
-    return solutions;
 }
 
 Eigen::VectorXd LinearSystems::LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v){
     int N = v.size();
     Eigen::VectorXd solutions(N); // Vector to store our solutions in
     Eigen::MatrixXd OriginalMatrix = A; // Copy of the original matrix for later
+    Eigen::MatrixXd LInverse(N, N); // The L^-1 matrix we construct later
     std::vector<Eigen::MatrixXd> Lm; // Vector of matrices index according to L
     
     double factor;
@@ -47,7 +46,7 @@ Eigen::VectorXd LinearSystems::LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v){
     for(int m = 0; m < N; m++){
         // Store these values for insertion into Li
         // They will be overwitten by the process of GE otherwise
-        Eigen::VectorXd LiCol= A.col(m);
+        Eigen::VectorXd LCol= A.col(m);
 
         // Dividing the mth row by the mth element of that row, likewise for v
         divisor = A(m, m);
@@ -61,34 +60,49 @@ Eigen::VectorXd LinearSystems::LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v){
             v(n) -= factor * v(m);
         }
 
-        // Gaussian Elimination ends here- we now construct the Li matrix
+        // ---- Gaussian Elimination steps end here ----
+        // We now construct the L_i matrix 
 
         // Construct the ith matrix
-        Eigen::MatrixXd Li = Eigen::MatrixXd::Identity(N, N);
-        Li.col(m) = -1.0 * LiCol;
+        Eigen::MatrixXd L = Eigen::MatrixXd::Identity(N, N);
+        L.col(m) = -1.0 * LCol; // Store this to make the L_i matrix
+        LInverse.col(m) = LCol; // Store this to make the L^-1 matrix
         // Modify the diagonals
         for(int i = 0; i<N;i++){
-            Li(i,i) = divisor;
+            L(i,i) = divisor;
         }
         // Zero upper terms
         for(int i = 0; i<N; i++){
             for(int j = i+1; j<N; j++){
-                Li(i,j) = 0.0;
+                L(i,j) = 0.0;
             }
         }
         // Set the 1 on the diagonal
-        Li(m,m) = 1;
+        L(m,m) = 1;
 
-        Lm.push_back((1.0/divisor) * Li);
+        Lm.push_back((1.0/divisor) * L);
     }
 
     // Start with the N-1th matrix, then multiply in succession to get the upper-triangular matrix
-    Eigen::MatrixXd result = Lm[N-1];
+    Eigen::MatrixXd U = Lm[N-1];
     for(int i = N-2; i >= 0; i--){
-        std::cout << i << std::endl;
-        result *= Lm[i];
+        U *= Lm[i];
     }
-    result *= OriginalMatrix;
+    U *= OriginalMatrix; // This is our complete U matrix
+
+    // Zero upper terms of the L-1 matrix
+    for(int i = 0; i<N; i++){
+        for(int j = i+1; j<N; j++){
+            LInverse(i,j) = 0.0;
+        }
+    }
+
+    // Prints to check things are working right
+    // std::cout << "Original Matrix \n" << OriginalMatrix << std::endl;
+    // std::cout << "LU Recovery \n" << L*U << std::endl;
+
+    // Double Back-sub to get the complete solution
+    solutions = LinearSystems::BackSubstitution(U, LinearSystems::BackSubstitution(LInverse, v));
 
     return solutions;
 }

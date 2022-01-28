@@ -12,7 +12,7 @@
 
 namespace LinearSystems{
 
-    // Takes the result of GaussianElimination and find the solutions
+    // Back-subs from bottom-top to solve a Gaussian Elim'd system
     Eigen::VectorXd BackSubstitution(Eigen::MatrixXd A, Eigen::VectorXd v);
 
     /**
