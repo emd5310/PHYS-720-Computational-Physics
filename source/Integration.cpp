@@ -64,3 +64,23 @@ double NumericIntegration::SimpsonsMethod(double a, double b, double N, std::fun
 
     return (1.0/3.0) * h * (EndPoints + 4 * OddRunningSum + 2 * EvenRunningSum);
 }
+
+double NumericIntegration::AdaptiveSimpsonsMethod(double a, double b, double N, double accuracy, std::function<double(double)> func){
+    double h = (b - a) / N;
+    double EndPoints = func(a) + func(b);
+
+    double OddRunningSum;
+    for(int k = 1; k <= (N-1); k+=2){
+        OddRunningSum += func(a + k * h);
+    }
+
+    double EvenRunningSum;
+    for(int k = 2; k <= (N-2); k+=2){
+        EvenRunningSum += func(a + k * h);
+    }
+
+    double Integral = (1.0/3.0) * h * (EndPoints + 4 * OddRunningSum + 2 * EvenRunningSum);
+    double RefinedIntegral;
+
+    return RefinedIntegral;
+}

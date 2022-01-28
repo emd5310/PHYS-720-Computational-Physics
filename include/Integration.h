@@ -11,6 +11,7 @@ namespace NumericIntegration{
     double AdaptiveTrapezoidMethod(double a, double b, double N, double accuracy, std::function<double(double)> func);
 
     double SimpsonsMethod(double a, double b, double N, std::function<double(double)> func);
+    double AdaptiveSimpsonsMethod(double a, double b, double N, double accuracy, std::function<double(double)> func);
 }
 
 #endif
