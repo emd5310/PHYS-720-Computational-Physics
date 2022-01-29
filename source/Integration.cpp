@@ -23,14 +23,15 @@ double NumericIntegration::AdaptiveTrapezoidMethod(double a, double b, double N,
 
     double InitialIntegral = h * (EndPoints + RunningSum); // Now we go through and add on to increase accuracy
     double RefinedIntegral = InitialIntegral;
-
+    
+    double Error;
     // This is our initial guess - we now increase N and decrease h until we hit our target accuracy
     do{
         InitialIntegral = RefinedIntegral;
         RefinedIntegral = (1.0/2.0)*InitialIntegral;
 
-        N = 2.0 * N;
-        h = h / 2.0;
+        N *= 2.0;
+        h /= 2.0;
         RunningSum = 0;
 
         // We're only interested in the odd numbered terms now- the others are included by adding onto our previous result
@@ -39,11 +40,12 @@ double NumericIntegration::AdaptiveTrapezoidMethod(double a, double b, double N,
         }
         RefinedIntegral += h * RunningSum;
 
-        std::cout << "Adjustment term: " << h * RunningSum << std::endl;
-        std::cout << "Refined is: " << RefinedIntegral << std::endl;
-        std::cout << "Error is: " << (1.0/3.0)*(InitialIntegral - RefinedIntegral) << "\n" << std::endl;
+        Error = (1.0/3.0)*std::abs((RefinedIntegral - InitialIntegral));
 
-    }while(accuracy < (1.0/3.0)*(InitialIntegral - RefinedIntegral));
+    }while(accuracy < Error);
+
+    // std::cout << "Result: " << RefinedIntegral << std::endl;
+    // std::cout << "Error: " << Error << std::endl;
 
     return RefinedIntegral;
 }
@@ -67,20 +69,58 @@ double NumericIntegration::SimpsonsMethod(double a, double b, double N, std::fun
 
 double NumericIntegration::AdaptiveSimpsonsMethod(double a, double b, double N, double accuracy, std::function<double(double)> func){
     double h = (b - a) / N;
-    double EndPoints = func(a) + func(b);
 
-    double OddRunningSum;
-    for(int k = 1; k <= (N-1); k+=2){
-        OddRunningSum += func(a + k * h);
-    }
-
-    double EvenRunningSum;
+    double Si;
+    // For k even
     for(int k = 2; k <= (N-2); k+=2){
-        EvenRunningSum += func(a + k * h);
+        Si += func(a + k * h);
     }
+    Si *= 2;
+    Si += func(a) + func(b);
+    Si *= 1.0/3.0;
 
-    double Integral = (1.0/3.0) * h * (EndPoints + 4 * OddRunningSum + 2 * EvenRunningSum);
-    double RefinedIntegral;
+    double Ti;
+    // For k odd
+    for(int k = 1; k <= (N-1); k+=2){
+        Ti += func(a + k * h);
+    }
+    Ti *= 2.0/3.0;
+
+    double InitialIntegral = h * (Si + 2.0 * Ti);
+    double RefinedIntegral = InitialIntegral;
+
+    double Tprev;
+    double Sprev;
+    double Error;
+    // This is our initial guess - we now increase N and decrease h until we hit our target accuracy
+    do{
+        // Store the previous values
+        InitialIntegral = RefinedIntegral;
+        RefinedIntegral = InitialIntegral;
+        Tprev = Ti;
+        Sprev = Si;
+        // Clear out our sum terms
+        Ti = 0;
+        Si = 0;
+
+        // Refine the estimate
+
+        N *= 2.0;
+        h /= 2.0;
+
+        for(int k = 1; k <= (N-1); k+=2){
+            Ti += func(a + k * h);
+        }
+        Ti *= 2.0/3.0;
+        Si = Sprev + Tprev;
+        RefinedIntegral = h * (Si + 2.0 * Ti);
+
+        Error = (1.0/15.0)*std::abs((RefinedIntegral - InitialIntegral));
+
+    }while(accuracy < Error);
+
+    // std::cout << "Result: " << RefinedIntegral << std::endl;
+    // std::cout << "Error: " << Error << std::endl;
 
     return RefinedIntegral;
 }

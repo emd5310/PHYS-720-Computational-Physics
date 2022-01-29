@@ -6,7 +6,7 @@ void AdaptiveIntegrationTest(){
     std::cout << "Adaptive Trapezoidal Method: " << test_area << std::endl;
 
     test_area = NumericIntegration::AdaptiveSimpsonsMethod(0, 7, 1, 0.0001, WeirdPoly);
-    std::cout << "Adaptive Trapezoidal Method: " << test_area << std::endl;
+    std::cout << "Adaptive Simpsons Method: " << test_area << std::endl;
 
     return;
 }
@@ -58,10 +58,10 @@ void LUDecompTest(){
 int main(int argc, char *argv[]){
     print("~~~ PHYS-720 : Computational Methods for Physics ~~~\n");
 
-    // IntegrationTest();
+    //IntegrationTest();
     // GaussianElimTest();
     // LUDecompTest();
-    // AdaptiveIntegrationTest();
+    AdaptiveIntegrationTest();
 
     return 0;
 }

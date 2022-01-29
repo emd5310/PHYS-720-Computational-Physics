@@ -83,7 +83,7 @@ Eigen::VectorXd LinearSystems::LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v){
         Lm.push_back((1.0/divisor) * L);
     }
 
-    // Start with the N-1th matrix, then multiply in succession to get the upper-triangular matrix
+    // Start with the N-1 matrix, then multiply in succession to get the upper-triangular matrix
     Eigen::MatrixXd U = Lm[N-1];
     for(int i = N-2; i >= 0; i--){
         U *= Lm[i];
