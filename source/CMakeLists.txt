@@ -6,5 +6,6 @@ add_executable(CompPhys main.cpp
                         Integration.cpp
                         Interpolation.cpp
                         LinearSystems.cpp
+                        EigenFinder.cpp
             )
 target_link_libraries(CompPhys Eigen3::Eigen)

@@ -2,11 +2,10 @@
 #define GAUSSIAN_ELIMINATION_H
 
 #include <cmath>
-#include <tuple>
 #include <functional>
-#include <vector>
-
 #include <iostream>
+#include <tuple>
+#include <vector>
 
 #include <Eigen/Core>
 

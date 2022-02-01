@@ -3,8 +3,8 @@
 
 // Standard libraries
 #include <cmath>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <string>
 
 // 3rd Party
