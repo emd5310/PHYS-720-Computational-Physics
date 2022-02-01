@@ -1,5 +1,5 @@
 #include "EigenFinder.h"
 
-double EigenFinder::TrapezoidMethod(Eigen::MatrixXd A, Eigen::VectorXd v){
+double EigenFinder::QRDecomp(Eigen::MatrixXd A){
     return 1.00;
 }

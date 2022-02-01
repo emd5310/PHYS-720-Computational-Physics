@@ -7,7 +7,7 @@
 #include <Eigen/Core>
 
 namespace EigenFinder{
-    double TrapezoidMethod(Eigen::MatrixXd A);
+    double QRDecomp(Eigen::MatrixXd A);
 
 }
 
