@@ -54,6 +54,16 @@ void LUDecompTest(){
     return;
 }
 
+void EigenFinderTest(){
+    Eigen::MatrixXd MatTest(4, 4);
+    MatTest << 1, 4, 8, 4,
+            4, 2, 3, 7,
+            8, 3, 6, 9,
+            4, 7, 9, 2;
+
+    EigenFinder::QRDecomp(MatTest, 0.000001);
+}
+
 
 int main(int argc, char *argv[]){
     print("~~~ PHYS-720 : Computational Methods for Physics ~~~\n");
@@ -61,7 +71,8 @@ int main(int argc, char *argv[]){
     //IntegrationTest();
     // GaussianElimTest();
     // LUDecompTest();
-    AdaptiveIntegrationTest();
+    // AdaptiveIntegrationTest();
+    EigenFinderTest();
 
     return 0;
 }

@@ -3,11 +3,12 @@
 
 #include <cmath>
 #include <iostream>
+#include <vector>
 
 #include <Eigen/Core>
 
 namespace EigenFinder{
-    double QRDecomp(Eigen::MatrixXd A);
+    double QRDecomp(Eigen::MatrixXd A, double accuracy);
 
 }
 

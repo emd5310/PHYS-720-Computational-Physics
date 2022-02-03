@@ -13,6 +13,7 @@
 #include <Eigen/LU> // For determinants
 
 // Project-level
+#include "EigenFinder.h"
 #include "LinearSystems.h"
 #include "Integration.h"
 #include "Interpolation.h"
