@@ -11,7 +11,6 @@ void AdaptiveIntegrationTest(){
     return;
 }
 
-
 void IntegrationTest(){
     double TestArea = NumericIntegration::TrapezoidMethod(0, 100, 1000, SimpleQuadratic);
     std::cout << "Trapezoidal Method: " << TestArea << std::endl;
@@ -20,7 +19,6 @@ void IntegrationTest(){
     std::cout << "Simpsons Method: " << TestArea << std::endl;
     return;
 }
-
 
 void GaussianElimTest(){
     std::cout << "\nGaussian Elimination Test:\n" << std::endl;
@@ -63,7 +61,6 @@ void EigenFinderTest(){
 
     EigenFinder::QRDecomp(MatTest, 0.000001);
 }
-
 
 int main(int argc, char *argv[]){
     print("~~~ PHYS-720 : Computational Methods for Physics ~~~\n");
