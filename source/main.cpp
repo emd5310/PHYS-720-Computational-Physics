@@ -25,12 +25,12 @@ void GaussianElimTest(){
     Eigen::MatrixXd MatTest(4, 4);
     Eigen::VectorXd VecTest(4);
 
-    MatTest << 2, 1, 4, 1,
-               3, 4, -1, -1,
-               1, -4, -1, -1,
-               2, -2, 1, 3;
+    MatTest << 4, -1, -1, -1,
+               -1, 3, 0, -1,
+               -1, 0, 3, -1,
+               -1, -1, -1, 4;
 
-    VecTest << -4, 3, 9, 7;
+    VecTest << 5, 0, 5, 0;
 
     std::cout << LinearSystems::GaussianElimination(MatTest, VecTest) << std::endl;
     return;
@@ -65,11 +65,11 @@ void EigenFinderTest(){
 int main(int argc, char *argv[]){
     print("~~~ PHYS-720 : Computational Methods for Physics ~~~\n");
 
-    //IntegrationTest();
-    // GaussianElimTest();
+    // IntegrationTest();
+    GaussianElimTest();
     // LUDecompTest();
     // AdaptiveIntegrationTest();
-    EigenFinderTest();
+    // EigenFinderTest();
 
     return 0;
 }
