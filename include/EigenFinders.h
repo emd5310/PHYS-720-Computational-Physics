@@ -8,7 +8,7 @@
 #include <Eigen/Core>
 
 namespace EigenFinder{
-    double QRDecomp(Eigen::MatrixXd A, double accuracy);
+    std::vector<double> QRDecomp(Eigen::MatrixXd A, double accuracy);
 
 }
 

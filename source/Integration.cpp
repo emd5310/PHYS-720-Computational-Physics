@@ -1,10 +1,10 @@
 #include "Integration.h"
 
-double NumericIntegration::TrapezoidMethod(double a, double b, double N, std::function<double(double)> func){
+double NumericIntegration::TrapezoidMethod(double a, double b, double N, const std::function<double(double)>& func){
     double h = (b - a) / N;
     double EndPoints = (1.0/2.0) * (func(a) + func(b));
 
-    double RunningSum;
+    double RunningSum = 0;
     for(int k = 1; k < N; k++){
         RunningSum += func(a + k * h);
     }
@@ -12,11 +12,11 @@ double NumericIntegration::TrapezoidMethod(double a, double b, double N, std::fu
     return h * (EndPoints + RunningSum);
 }
 
-double NumericIntegration::AdaptiveTrapezoidMethod(double a, double b, double N, double accuracy, std::function<double(double)> func){
+double NumericIntegration::AdaptiveTrapezoidMethod(double a, double b, double N, double accuracy, const std::function<double(double)>& func){
     double h = (b - a) / N;
     double EndPoints = (1.0/2.0) * (func(a) + func(b));
 
-    double RunningSum;
+    double RunningSum = 0;
     for(int k = 1; k < N; k++){
         RunningSum += func(a + k * h);
     }
@@ -50,16 +50,16 @@ double NumericIntegration::AdaptiveTrapezoidMethod(double a, double b, double N,
     return RefinedIntegral;
 }
 
-double NumericIntegration::SimpsonsMethod(double a, double b, double N, std::function<double(double)> func){
+double NumericIntegration::SimpsonsMethod(double a, double b, double N, const std::function<double(double)>& func){
     double h = (b - a) / N;
     double EndPoints = func(a) + func(b);
 
-    double OddRunningSum;
+    double OddRunningSum = 0;
     for(int k = 1; k <= (N-1); k+=2){
         OddRunningSum += func(a + k * h);
     }
 
-    double EvenRunningSum;
+    double EvenRunningSum = 0;
     for(int k = 2; k <= (N-2); k+=2){
         EvenRunningSum += func(a + k * h);
     }
@@ -67,10 +67,10 @@ double NumericIntegration::SimpsonsMethod(double a, double b, double N, std::fun
     return (1.0/3.0) * h * (EndPoints + 4 * OddRunningSum + 2 * EvenRunningSum);
 }
 
-double NumericIntegration::AdaptiveSimpsonsMethod(double a, double b, double N, double accuracy, std::function<double(double)> func){
+double NumericIntegration::AdaptiveSimpsonsMethod(double a, double b, double N, double accuracy, const std::function<double(double)>& func){
     double h = (b - a) / N;
 
-    double Si;
+    double Si = 0;
     // For k even
     for(int k = 2; k <= (N-2); k+=2){
         Si += func(a + k * h);
@@ -79,7 +79,7 @@ double NumericIntegration::AdaptiveSimpsonsMethod(double a, double b, double N, 
     Si += func(a) + func(b);
     Si *= 1.0/3.0;
 
-    double Ti;
+    double Ti = 0;
     // For k odd
     for(int k = 1; k <= (N-1); k+=2){
         Ti += func(a + k * h);
@@ -101,7 +101,6 @@ double NumericIntegration::AdaptiveSimpsonsMethod(double a, double b, double N, 
         Sprev = Si;
         // Clear out our sum terms
         Ti = 0;
-        Si = 0;
 
         // Refine the estimate
 

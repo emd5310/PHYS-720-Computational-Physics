@@ -45,7 +45,7 @@ Eigen::VectorXd LinearSystems::LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v){
     double divisor;
     for(int m = 0; m < N; m++){
         // Store these values for insertion into Li
-        // They will be overwitten by the process of GE otherwise
+        // They will be overwritten by the process of GE otherwise
         Eigen::VectorXd LCol= A.col(m);
 
         // Dividing the mth row by the mth element of that row, likewise for v
@@ -80,7 +80,7 @@ Eigen::VectorXd LinearSystems::LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v){
         // Set the 1 on the diagonal
         L(m,m) = 1;
 
-        Lm.push_back((1.0/divisor) * L);
+        Lm.emplace_back((1.0/divisor) * L);
     }
 
     // Start with the N-1 matrix, then multiply in succession to get the upper-triangular matrix
@@ -96,10 +96,6 @@ Eigen::VectorXd LinearSystems::LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v){
             LInverse(i,j) = 0.0;
         }
     }
-
-    // Prints to check things are working right
-    // std::cout << "Original Matrix \n" << OriginalMatrix << std::endl;
-    // std::cout << "LU Recovery \n" << L*U << std::endl;
 
     // Double Back-sub to get the complete solution
     solutions = LinearSystems::BackSubstitution(U, LinearSystems::BackSubstitution(LInverse, v));

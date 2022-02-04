@@ -13,10 +13,11 @@
 #include <Eigen/LU> // For determinants
 
 // Project-level
-#include "EigenFinder.h"
+#include "EigenFinders.h"
 #include "LinearSystems.h"
 #include "Integration.h"
 #include "Interpolation.h"
+#include "RootFinders.h"
 
 std::string print(std::string message){
     // Convenient wrapper for cout
@@ -26,6 +27,16 @@ std::string print(std::string message){
 
 double SimpleQuadratic(double x){
     return std::pow(x, 2);
+}
+
+double Polynomial(double x){
+    return 924*std::pow(x,6) - 2772*std::pow(x,5) + 3150*std::pow(x,4) -
+            1680*std::pow(x,3) + 420*std::pow(x,2) - 42*x + 1;
+}
+
+double PolynomialPrime(double x){
+    return 42*(132*std::pow(x,5) - 330*std::pow(x,4) + 300*std::pow(x,3) -
+            120*std::pow(x,2) + 20*x -1);
 }
 
 double WeirdPoly(double x){

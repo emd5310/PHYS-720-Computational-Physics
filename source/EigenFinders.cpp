@@ -1,7 +1,7 @@
-#include "EigenFinder.h"
+#include "EigenFinders.h"
 
-double EigenFinder::QRDecomp(Eigen::MatrixXd A, double accuracy){
-    int N = A.rows(); // Assumes this is a square matrix
+std::vector<double> EigenFinder::QRDecomp(Eigen::MatrixXd A, double accuracy){
+    int N = A.rows(); // Assumes A is a square matrix
 
     Eigen::MatrixXd R(N, N);
     Eigen::MatrixXd Q(N, N);
@@ -10,15 +10,14 @@ double EigenFinder::QRDecomp(Eigen::MatrixXd A, double accuracy){
 
     // These are index exactly how you'd expect
     std::vector<Eigen::VectorXd> q_N; // Stores all our q vectors
+    q_N.reserve(N);
     std::vector<Eigen::VectorXd> u_N; // Stores all the u vectors
-
-    std::cout << "Initial A:\n" << A << std::endl;
+    u_N.reserve(N);
 
     do{
-
         q_N.clear();
         u_N.clear();
-        
+
         Eigen::VectorXd a_i = Eigen::VectorXd::Zero(N);
         Eigen::VectorXd u_i = Eigen::VectorXd::Zero(N);
         Eigen::VectorXd q_i = Eigen::VectorXd::Zero(N);
@@ -55,18 +54,18 @@ double EigenFinder::QRDecomp(Eigen::MatrixXd A, double accuracy){
             }
         }
 
-        std::cout << "Q:\n " << Q << std::endl;
-        std::cout << "R:\n " << R << std::endl;
-
         A = R * Q;
         V = V * Q;
 
-        std::cout << "A:\n " << A << std::endl;
-
     }while(abs(A(2,0)) >= accuracy);
 
-    std::cout << "Final A:\n " << A << std::endl;
-    std::cout << "Final V:\n " << V << std::endl; 
+    std::vector<double> Eigenvalues;
+    Eigenvalues.reserve(N);
 
-    return 1.00;
+    for(int row = 0; row < N; row++){
+        // Pick out the diagonal terms and return them
+        Eigenvalues.push_back(A(row, row));
+    }
+
+    return Eigenvalues;
 }
