@@ -54,6 +54,9 @@ std::vector<double> EigenFinder::QRDecomp(Eigen::MatrixXd A, double accuracy){
             }
         }
 
+        // This is commented out because it will print EVERY TIME otherwise
+        // std::cout << "QR Recovery:\n" << Q*R << "\n" << std::endl;
+
         A = R * Q;
         V = V * Q;
 

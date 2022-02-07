@@ -11,20 +11,34 @@
 
 namespace LinearSystems{
 
-    // Back-subs from bottom-top to solve a Gaussian Elim'd system
+    /**
+     * Carries out backsubstitution for...
+     * @param A Real, square coefficient matrix
+     * @param v 'Solution' vector
+     * @return the vector containing the solutions to this system
+     */
     Eigen::VectorXd BackSubstitution(Eigen::MatrixXd A, Eigen::VectorXd v);
 
     /**
-     * Carries out the process of solving a system of equations in the form of a matrix of coefficients, A
-     * and a vector containing the solution coefficients, v
+     * Performs Gaussian Elimination
+     * @param A Real, square coefficient matrix
+     * @param v 'Solution' vector
+     * @return the vector containing the solutions to this system
      */
     Eigen::VectorXd GaussianElimination(Eigen::MatrixXd A, Eigen::VectorXd v);
-    // Same as above but using Partial Pivoting
+    /**
+     * Performs Gaussian Elimination using Partial Pivoting
+     * @param A Real, square coefficient matrix
+     * @param v 'Solution' vector
+     * @return the vector containing the solutions to this system
+     */
     Eigen::VectorXd GaussianEliminationPP(Eigen::MatrixXd A, Eigen::VectorXd v);
 
     /**
-     * Solves a system of equations using LU Decomposition, where the coefficient matrix A is used to generate 
-     * the L_n matrices for use on multiple v's
+     * Performs LU-Decomposition
+     * @param A Real, square coefficient matrix
+     * @param v 'Solution' vector
+     * @return the vector containing the solutions to this system
      */
     Eigen::VectorXd LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v);
 

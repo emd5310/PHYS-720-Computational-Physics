@@ -97,6 +97,8 @@ Eigen::VectorXd LinearSystems::LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v){
         }
     }
 
+    std::cout << "LU Recovery:\n" << LInverse*U << "\n" << std::endl;
+
     // Double Back-sub to get the complete solution
     solutions = LinearSystems::BackSubstitution(U, LinearSystems::BackSubstitution(LInverse, v));
 
