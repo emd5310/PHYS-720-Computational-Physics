@@ -8,5 +8,6 @@ add_executable(CompPhys main.cpp
                         LinearSystems.cpp
                         EigenFinders.cpp
                         RootFinders.cpp
-                        Derivatives.cpp)
+                        Derivatives.cpp
+                        tests.cpp)
 target_link_libraries(CompPhys Eigen3::Eigen)
