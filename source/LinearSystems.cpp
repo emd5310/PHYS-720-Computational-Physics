@@ -102,3 +102,44 @@ Eigen::VectorXd LinearSystems::LUDecomp(Eigen::MatrixXd A, Eigen::VectorXd v){
 
     return solutions;
 }
+
+Eigen::VectorXd LinearSystems::GaussianEliminationPP(Eigen::MatrixXd A, Eigen::VectorXd v){
+
+    int N = v.size();
+
+    for(int m = 0; m < N; m++){
+        // As long as there is somewhere to pivot to...
+        if(m + 1 < N){
+            // Copy the current row and switch it with the last one
+            Eigen::VectorXd CurrentRow = A.row(m); // Copy the current row
+            double CurrentV = v(m);
+            // Check for a valid lower row to switch with
+            bool pivot = true;
+            for(int j = m+1; j < N; j++){
+                if(abs(A(j,m)) > A(m, m) && pivot) {
+                    A.row(m) = A.row(j); // Swap the current row for the new one
+                    A.row(j) = CurrentRow; // Then set the row we moved to the previous
+                    // Likewise for the solution vector
+                    v(m) = v(j);
+                    v(j) = CurrentV;
+                    pivot = false;
+                }
+            }
+        }
+
+        // Dividing the mth row by the mth element of that row, likewise for v
+        double divisor = A(m,m);
+
+        A.row(m) /= divisor;
+        v(m) /= divisor;
+
+        for(int n = (m+1); n < N; n++){
+            // Subtracting the nth row by the mth element of that row times itself
+            double factor = A(n, m);
+            A.row(n) -= factor * A.row(m);
+            v(n) -= factor * v(m);
+        }
+    }
+    // Now carry out backsub to get the solutions
+    return LinearSystems::BackSubstitution(A, v);
+}

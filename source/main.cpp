@@ -1,24 +1,7 @@
 #include "main.h"
 
-void AdaptiveIntegrationTest(){
-    std::cout << "Setting terminal precision to 12 digits!" << std::setprecision (12) << std::endl;
-    double test_area = NumericIntegration::AdaptiveTrapezoidMethod(0, 7, 1, 0.0001, WeirdPoly);
-    std::cout << "Adaptive Trapezoidal Method: " << test_area << std::endl;
-
-    test_area = NumericIntegration::AdaptiveSimpsonsMethod(0, 7, 1, 0.0001, WeirdPoly);
-    std::cout << "Adaptive Simpsons Method: " << test_area << std::endl;
-}
-
-void IntegrationTest(){
-    double TestArea = NumericIntegration::TrapezoidMethod(0, 100, 1000, SimpleQuadratic);
-    std::cout << "Trapezoidal Method: " << TestArea << std::endl;
-
-    TestArea = NumericIntegration::SimpsonsMethod(0, 100, 100, SimpleQuadratic);
-    std::cout << "Simpsons Method: " << TestArea << std::endl;
-}
-
 void GaussianElimination(){
-    std::cout << "\nGaussian Elimination:" << std::endl;
+    print("\nGaussian Elimination:");
 
     Eigen::MatrixXd Coefficients(4, 4);
     Coefficients << 4, -1, -1, -1,
@@ -32,23 +15,39 @@ void GaussianElimination(){
     std::cout << LinearSystems::GaussianElimination(Coefficients, v) << std::endl;
 }
 
+void GaussianEliminationPP(){
+    print("\nGaussian Elimination with Partial Pivoting");
+
+    Eigen::MatrixXd Coefficients(4, 4);
+    Eigen::VectorXd v(4);
+
+    Coefficients << 2, 1, 4, 1,
+            3, 4, -1, -1,
+            1, -4, 1, 5,
+            2, -2, 1, 3;
+
+    v << -4, 3, 9, 7;
+
+    std::cout << LinearSystems::GaussianEliminationPP(Coefficients, v) << std::endl;
+}
+
 void LUDecomp(){
-    std::cout << "\nLU Decomposition:" << std::endl;
+    print("\nLU Decomposition:");
 
     Eigen::MatrixXd LUMatrix(4, 4);
     LUMatrix << 2, 1, 4, 1,
-               3, 4, -1, -1,
-               1, -4, -1, -1,
-               2, -2, 1, 3;
+            3, 4, -1, -1,
+            1, -4, 1, 5,
+            2, -2, 1, 3;
 
-    Eigen::VectorXd v(4);
-    v << -4, 3, 9, 7;
+    Eigen::VectorXd vec(4);
+    vec << -4, 3, 9, 7;
 
-    std::cout << LinearSystems::LUDecomp(LUMatrix, v) << std::endl;
+    std::cout << LinearSystems::LUDecomp(LUMatrix, vec) << std::endl;
 }
 
 void QRAlgorithm(){
-    std::cout << "\nEigenvalues: " << std::endl;
+    print("\nEigenvalues: ");
 
     Eigen::MatrixXd QRMatrix(4, 4);
     QRMatrix << 1, 4, 8, 4,
@@ -61,44 +60,20 @@ void QRAlgorithm(){
     }
 }
 
-void NewtonsMethod(){
-    std::cout << "\nNonlinear Solutions: " << std::endl;
-
-    std::vector<double> guesses{0.037, 0.171, 0.379, 0.623, 0.833, 0.967};
-    double tolerance = 0.00000001;
-
-    for(auto& value : RootFinders::NewtonsMethod(Polynomial, PolynomialPrime, guesses, tolerance)) {
-        std::cout << value << std::endl;
-    }
-}
-
-void BisectionMethod(){
-    std::cout << "\nNonlinear Solutions: " << std::endl;
-
-    std::vector<std::pair<double, double>> guesses{
-        {0.028, 0.0434},
-        {0.165, 0.174},
-        {0.37, 0.39},
-        {0.81, 0.84}};
-
-    double tolerance = 1e-9;
-    std::cout << std::setprecision(12) << std::endl;
-
-    for(auto& value : RootFinders::BisectionMethod(Polynomial, guesses, tolerance)) {
-        std::cout << value << std::endl;
-    }
-}
-
+/**
+ * Calls the various functions that execute my own tests or homework problems
+ */
 int main(int argc, char *argv[]){
     print("~~~ PHYS-720 : Computational Methods for Physics ~~~");
 
+    // NewtonsMethod();
+    // BisectionMethod();
     // IntegrationTest();
     // AdaptiveIntegrationTest();
-    // GaussianElimination();
-    // QRAlgorithm();
-    // LUDecomp();
-    // NewtonsMethod();
-    BisectionMethod();
+    QRAlgorithm();
+    LUDecomp();
+    GaussianElimination();
+    GaussianEliminationPP();
 
     return 0;
 }

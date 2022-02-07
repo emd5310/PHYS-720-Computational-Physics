@@ -19,6 +19,8 @@ namespace LinearSystems{
      * and a vector containing the solution coefficients, v
      */
     Eigen::VectorXd GaussianElimination(Eigen::MatrixXd A, Eigen::VectorXd v);
+    // Same as above but using Partial Pivoting
+    Eigen::VectorXd GaussianEliminationPP(Eigen::MatrixXd A, Eigen::VectorXd v);
 
     /**
      * Solves a system of equations using LU Decomposition, where the coefficient matrix A is used to generate 
