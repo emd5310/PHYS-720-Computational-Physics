@@ -13,6 +13,7 @@
 #include <Eigen/LU> // For determinants
 
 // Project-level
+#include "Derivatives.h"
 #include "EigenFinders.h"
 #include "LinearSystems.h"
 #include "Integration.h"
@@ -31,6 +32,7 @@ namespace tests{
     void GaussianEliminationPP();
     void LUDecomp();
     void QRAlgorithm();
+    void CentralDifference();
 
     double SimpleQuadratic(double x);
     double Polynomial(double x);

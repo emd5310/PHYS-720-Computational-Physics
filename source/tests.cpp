@@ -45,7 +45,7 @@ void tests::AdaptiveIntegrationTest(){
     double test_area = NumericIntegration::AdaptiveTrapezoidMethod(0, 7, 1, 0.0001, tests::WeirdPoly);
     std::cout << "Adaptive Trapezoidal Method: " << test_area << std::endl;
 
-    test_area = NumericIntegration::AdaptiveSimpsonsMethod(0, 7, 1, 0.0001, tests::WeirdPoly);
+    test_area = NumericIntegration::AdaptiveSimpsonsMethod(0, 7, 1, 0.0001, tests::WeirdPoly, false);
     std::cout << "Adaptive Simpsons Method: " << test_area << std::endl;
 }
 
@@ -114,6 +114,13 @@ void tests::QRAlgorithm(){
 
     for(auto value : EigenFinder::QRDecomp(QRMatrix, 0.0000001)){
         std::cout << value << std::endl;
+    }
+}
+
+void tests::CentralDifference(){
+    std::cout << std::setprecision(12);
+    for(double val : NumericDerivative::CentralDifference(0, 1, 1000, tests::SimpleQuadratic)){
+        std::cout << val << "\n";
     }
 }
 

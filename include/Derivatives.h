@@ -10,8 +10,15 @@
 
 namespace NumericDerivative{
 
-    // Uses the central difference method to calculate the numeric derivative of func
-    std::vector<double> CentralDifference(const std::function<double(double)>& func, double x);
+    /**
+     * Uses the Central Difference algorithm to take a derivative of one variable
+     * @param a Beginning of range to diff' over
+     * @param b End of range to diff' over
+     * @param N Number of slices to use
+     * @param func Function to differentiate
+     * @return Vector containing the resulting values, in order from a->b
+     */
+    std::vector<double> CentralDifference(double a, double b, int N, const std::function<double(double)>& func);
 
 
 

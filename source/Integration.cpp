@@ -1,6 +1,6 @@
 #include "Integration.h"
 
-double NumericIntegration::TrapezoidMethod(double a, double b, double N, const std::function<double(double)>& func){
+double NumericIntegration::TrapezoidMethod(double a, double b, int N, const std::function<double(double)>& func){
     double h = (b - a) / N;
     double EndPoints = (1.0/2.0) * (func(a) + func(b));
 
@@ -12,7 +12,7 @@ double NumericIntegration::TrapezoidMethod(double a, double b, double N, const s
     return h * (EndPoints + RunningSum);
 }
 
-double NumericIntegration::AdaptiveTrapezoidMethod(double a, double b, double N, double accuracy, const std::function<double(double)>& func){
+double NumericIntegration::AdaptiveTrapezoidMethod(double a, double b, int N, double accuracy, const std::function<double(double)>& func){
     double h = (b - a) / N;
     double EndPoints = (1.0/2.0) * (func(a) + func(b));
 
@@ -50,7 +50,7 @@ double NumericIntegration::AdaptiveTrapezoidMethod(double a, double b, double N,
     return RefinedIntegral;
 }
 
-double NumericIntegration::SimpsonsMethod(double a, double b, double N, const std::function<double(double)>& func){
+double NumericIntegration::SimpsonsMethod(double a, double b, int N, const std::function<double(double)>& func){
     double h = (b - a) / N;
     double EndPoints = func(a) + func(b);
 
@@ -67,7 +67,9 @@ double NumericIntegration::SimpsonsMethod(double a, double b, double N, const st
     return (1.0/3.0) * h * (EndPoints + 4 * OddRunningSum + 2 * EvenRunningSum);
 }
 
-double NumericIntegration::AdaptiveSimpsonsMethod(double a, double b, double N, double accuracy, const std::function<double(double)>& func){
+double NumericIntegration::AdaptiveSimpsonsMethod(double a, double b, int N, double accuracy,
+                                                  const std::function<double(double)> &func,
+                                                  bool verbose) {
     double h = (b - a) / N;
 
     double Si = 0;
@@ -116,10 +118,15 @@ double NumericIntegration::AdaptiveSimpsonsMethod(double a, double b, double N, 
 
         Error = (1.0/15.0)*std::abs((RefinedIntegral - InitialIntegral));
 
+        if(verbose){
+            std::cout << "N = " << N << ", Error = " << Error << std::endl;
+        }
+
     }while(accuracy < Error);
 
-    // std::cout << "Result: " << RefinedIntegral << std::endl;
-    // std::cout << "Error: " << Error << std::endl;
-
     return RefinedIntegral;
+}
+
+double NumericIntegration::GaussianQuadrature(double a, double b, const std::function<double(double)> &func){
+    return 10;
 }
