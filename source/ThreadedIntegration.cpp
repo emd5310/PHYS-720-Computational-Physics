@@ -37,12 +37,14 @@ double ThreadedIntegration::ThreadedAdaptiveMethod(int threads, double a, double
     std::vector<std::thread> running;
     running.reserve(threads);
 
+    // Generate each thread, constructing it right inside of the vector
     for(int i = 0; i < threads; i++){
         running.emplace_back(std::ref(ThreadedIntegration::AdaptiveSimpsonsMethod), sum, std::ref(sumlock), a,
                              newa, N, accuracy, std::ref(func), verbose);
         a += stepSize;
         newa += stepSize;
     }
+    // Make sure we wait for all the threads to complete their share of the calculation
     for(auto &thread : running){
         thread.join();
     }
