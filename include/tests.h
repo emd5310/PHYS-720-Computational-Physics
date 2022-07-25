@@ -19,6 +19,7 @@
 #include "Integration.h"
 #include "Interpolation.h"
 #include "RootFinders.h"
+#include "ThreadedIntegration.h"
 
 namespace tests{
 
@@ -33,6 +34,8 @@ namespace tests{
     void LUDecomp();
     void QRAlgorithm();
     void CentralDifference();
+
+    void ThreadedAdaptiveSimpsonTest();
 
     double SimpleQuadratic(double x);
     double Polynomial(double x);

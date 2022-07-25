@@ -40,6 +40,11 @@ void tests::BisectionMethod(){
     }
 }
 
+void tests::ThreadedAdaptiveSimpsonTest(){
+    double test_area = ThreadedIntegration::ThreadedAdaptiveMethod(6, 0, 7, 8, 0.0001, tests::WeirdPoly, false);
+    std::cout << "Threaded Adaptive Simpsons Method: " << test_area << std::endl;
+}
+
 void tests::AdaptiveIntegrationTest(){
     std::cout << "\nSetting terminal precision to 12 digits!" << std::setprecision (12) << std::endl;
     double test_area = NumericIntegration::AdaptiveTrapezoidMethod(0, 7, 1, 0.0001, tests::WeirdPoly);

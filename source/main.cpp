@@ -36,8 +36,8 @@ double ProblemTwo(){
 int main(int argc, char *argv[]){
     print("~~~ PHYS-720 : Computational Methods for Physics ~~~");
 //    tests::AllTests();
-    ProblemOne();
-    ProblemTwo();
+    tests::AdaptiveIntegrationTest();
+    tests::ThreadedAdaptiveSimpsonTest();
 
     return 0;
 }
